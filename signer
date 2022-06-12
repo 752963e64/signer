@@ -22,7 +22,7 @@ function signer.pubkey()
 
 function signer.sign()
 {
- [[ ! $1 ]] && echo "No digest type provided. Exiting..."
+ [[ ! ${1} ]] && echo "No digest type provided. Exiting..."
  [[ ! -f ${2} ]] && echo "No file found. Exiting..."
  local dgst=${1}
  local data=${2}
@@ -34,7 +34,7 @@ function signer.sign()
 
 function signer.verify()
 {
-  [[ ! $1 ]] && echo "No digest type provided. Exiting..."
+  [[ ! ${1} ]] && echo "No digest type provided. Exiting..."
   [[ ! -f ${2} ]] && echo "No file found. Exiting..."
   local dgst=${1}
   local data=${2}
