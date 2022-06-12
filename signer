@@ -40,4 +40,10 @@ function signer.verify()
   openssl dgst -${dgst} -verify ~/.signer/pubkey.pem -signature ./${data}.${dgst} ${data}
 }
 
+function signer.sign.sha1()
+{
+  local dgst=${FUNCNAME##*.}
+  signer.sign ${dgst} ${1} || echo "Critical error occured while signing..."
+}
+
 
