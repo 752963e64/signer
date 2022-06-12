@@ -9,7 +9,6 @@ function signer.privkey()
   umask 022
 }
 
-
 function signer.pubkey()
 {
   umask 027
@@ -31,5 +30,14 @@ function signer.sign()
  [[ -x /usr/bin/hastyhex ]] && hastyhex ./${data}.${dgst}
 }
 
+function signer.verify()
+{
+  [[ ! $1 ]] && echo "No digest type provided. Exiting..."
+  [[ ! -f ${2} ]] && echo "No file found. Exiting..."
+  local dgst=${1}
+  local data=${2}
+  echo -n "${data} -> "
+  openssl dgst -${dgst} -verify ~/.signer/pubkey.pem -signature ./${data}.${dgst} ${data}
+}
 
 
