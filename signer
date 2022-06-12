@@ -46,4 +46,11 @@ function signer.sign.sha1()
   signer.sign ${dgst} ${1} || echo "Critical error occured while signing..."
 }
 
+function signer.verify.sha1()
+{
+  local dgst=${FUNCNAME##*.}
+  signer.verify ${dgst} ${1} || echo "Critical error occured while verifying..."
+}
+
+
 
