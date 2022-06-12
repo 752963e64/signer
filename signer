@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 function signer.privkey()
 {
   umask 027
@@ -14,7 +13,7 @@ function signer.privkey()
 function signer.pubkey()
 {
   umask 027
-  [[ -f ~/.ssl/privkey.pem ]] || signer.privkey && signer.pubkey
+  [[ -f ~/.signer/privkey.pem ]] || signer.privkey && signer.pubkey
   openssl ec -in ~/.signer/privkey.pem -pubout -out ~/.signer/pubkey.pem
   l ~/.signer
   umask 022
@@ -22,5 +21,15 @@ function signer.pubkey()
 
 function signer.sign()
 {
-
+ [[ ! $1 ]] && echo "No digest type provided. Exiting..."
+ [[ ! -f ${2} ]] && echo "No file found. Exiting..."
+ local dgst=${1}
+ local data=${2}
+ openssl dgst -${dgst} -sign ~/.signer/privkey.pem -out ${data}.${dgst} ${data}
+ l ./${data}.${dgst}
+ [[ $- != *i* ]] && return
+ [[ -x /usr/bin/hastyhex ]] && hastyhex ./${data}.${dgst}
 }
+
+
+
