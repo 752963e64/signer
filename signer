@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+# by 752963e64 - 13/06/2022
+
 function signer.privkey()
 {
   umask 027
   [[ -d ~/.signer ]] || mkdir -pv ~/.signer
   openssl ecparam -out ~/.signer/privkey.pem -name prime256v1 -genkey
-  l ~/.signer
+  ls -alsh ~/.signer
   umask 022
 }
 
@@ -14,7 +16,7 @@ function signer.pubkey()
   umask 027
   [[ -f ~/.signer/privkey.pem ]] || signer.privkey && signer.pubkey
   openssl ec -in ~/.signer/privkey.pem -pubout -out ~/.signer/pubkey.pem
-  l ~/.signer
+  ls -alsh ~/.signer
   umask 022
 }
 
@@ -25,7 +27,7 @@ function signer.sign()
  local dgst=${1}
  local data=${2}
  openssl dgst -${dgst} -sign ~/.signer/privkey.pem -out ${data}.${dgst} ${data}
- l ./${data}.${dgst}
+ ls -alsh ./${data}.${dgst}
  [[ $- != *i* ]] && return
  [[ -x /usr/bin/hastyhex ]] && hastyhex ./${data}.${dgst}
 }
@@ -51,6 +53,4 @@ function signer.verify.sha1()
   local dgst=${FUNCNAME##*.}
   signer.verify ${dgst} ${1} || echo "Critical error occured while verifying..."
 }
-
-
 
