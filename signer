@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+
+function signer.privkey()
+{
+  umask 027
+  [[ -d ~/.signer ]] || mkdir -pv ~/.signer
+  openssl ecparam -out ~/.signer/privkey.pem -name prime256v1 -genkey
+  l ~/.signer
+  umask 022
+}
+
+
+function signer.pubkey()
+{
+  umask 027
+  [[ -f ~/.ssl/privkey.pem ]] || signer.privkey && signer.pubkey
+  openssl ec -in ~/.signer/privkey.pem -pubout -out ~/.signer/pubkey.pem
+  l ~/.signer
+  umask 022
+}
+
+function signer.sign()
+{
+
+}
