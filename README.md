@@ -2,10 +2,11 @@
 Authentifies your file data easily.
 
 ### Usage:
-This is a library that uses openssl to create privkey, pubkey and sign file...
+This is a library that uses openssl to create private key, public key and sign files you wishes to be signed...
 
+You need share both signature file and your public key to let ppl ensure authenticity.
 
-to use signer you must source it thru your scripting or interactive shell to use it by hand...
+#### to use signer you must source it thru your scripting or interactive shell to use it by hand...
 
 ```shell
 # signer.privkey() - creates a directory then generate and install a private key.
