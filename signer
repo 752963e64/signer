@@ -22,8 +22,8 @@ function signer.pubkey()
 
 function signer.sign()
 {
- [[ ! ${1} ]] && echo "No digest type provided. Exiting..."
- [[ ! -f ${2} ]] && echo "No file found. Exiting..."
+ [[ ! ${1} ]] && { echo "No digest type provided. Exiting..."; exit 1 }
+ [[ ! -f ${2} ]] && { echo "No file found. Exiting..."; exit 1 }
  local dgst=${1}
  local data=${2}
  openssl dgst -${dgst} -sign ~/.signer/privkey.pem -out ${data}.${dgst} ${data}
@@ -34,8 +34,8 @@ function signer.sign()
 
 function signer.verify()
 {
-  [[ ! ${1} ]] && echo "No digest type provided. Exiting..."
-  [[ ! -f ${2} ]] && echo "No file found. Exiting..."
+  [[ ! ${1} ]] && { echo "No digest type provided. Exiting..."; exit 1 }
+  [[ ! -f ${2} ]] && { echo "No file found. Exiting..."; exit 1 }
   local dgst=${1}
   local data=${2}
   echo -n "${data} -> "
@@ -45,12 +45,12 @@ function signer.verify()
 function signer.sign.sha1()
 {
   local dgst=${FUNCNAME##*.}
-  signer.sign ${dgst} ${1} || echo "Critical error occured while signing..."
+  signer.sign ${dgst} ${1} || { echo "Critical error occured while signing..."; exit 1 }
 }
 
 function signer.verify.sha1()
 {
   local dgst=${FUNCNAME##*.}
-  signer.verify ${dgst} ${1} || echo "Critical error occured while verifying..."
+  signer.verify ${dgst} ${1} || { echo "Critical error occured while verifying..."; exit 1 }
 }
 
