@@ -22,14 +22,14 @@ function signer.pubkey()
 
 function signer.sign()
 {
- [[ ! ${1} ]] && { echo "No digest type provided. Exiting..."; exit 1 }
- [[ ! -f ${2} ]] && { echo "No file found. Exiting..."; exit 1 }
- local dgst=${1}
- local data=${2}
- openssl dgst -${dgst} -sign ~/.signer/privkey.pem -out ${data}.${dgst} ${data}
- ls -alsh ./${data}.${dgst}
- [[ $- != *i* ]] && return
- [[ -x /usr/bin/hastyhex ]] && hastyhex ./${data}.${dgst}
+  [[ ! ${1} ]] && { echo "No digest type provided. Exiting..."; exit 1 }
+  [[ ! -f ${2} ]] && { echo "No file found. Exiting..."; exit 1 }
+  local dgst=${1}
+  local data=${2}
+  openssl dgst -${dgst} -sign ~/.signer/privkey.pem -out ${data}.${dgst} ${data}
+  ls -alsh ./${data}.${dgst}
+  [[ $- != *i* ]] && return
+  [[ -x /usr/bin/hastyhex ]] && hastyhex ./${data}.${dgst}
 }
 
 function signer.verify()
